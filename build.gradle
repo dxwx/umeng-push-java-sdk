@@ -1,5 +1,10 @@
+plugins {
+    id "com.jfrog.bintray" version "1.6"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
+
 
 group = 'com.umeng.message'
 version = '0.1.0'
@@ -9,6 +14,24 @@ description = """"""
 sourceCompatibility = 1.5
 targetCompatibility = 1.5
 
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+        key = System.getenv('BINTRAY_KEY')
+        filesSpec {
+            from 'build/libs'
+                into '.'
+        }
+    pkg {
+        repo = 'maven'
+            name = 'umeng-push-sdk-java'
+            userOrg = user
+            licenses = ['MIT']
+            version {
+                name = '0.1.0'
+            }
+    }
+}
 
 
 repositories {
@@ -20,21 +43,3 @@ dependencies {
         compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.3.5'
 }
 
-task writeNewPom << {
-    pom {
-        project {
-            groupId 'com.umeng.message'
-                artifactId 'netroby'
-                version '0.1.0'
-
-                inceptionYear '2016'
-                licenses {
-                    license {
-                        name 'MIT'
-                            url 'http://opensource.org/licenses/MIT'
-                            distribution 'repo'
-                    }
-                }
-        }
-    }.writeTo("$buildDir/0.1.0.pom.xml")
-}
