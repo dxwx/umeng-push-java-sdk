@@ -12,10 +12,29 @@ targetCompatibility = 1.5
 
 
 repositories {
-        
-     maven { url "http://repo.maven.apache.org/maven2" }
+
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
     compile group: 'org.json', name: 'json', version:'20090211'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.3.5'
+        compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.3.5'
+}
+
+task writeNewPom << {
+    pom {
+        project {
+            groupId 'com.umeng.message'
+                artifactId 'netroby'
+                version '0.1.0'
+
+                inceptionYear '2016'
+                licenses {
+                    license {
+                        name 'MIT'
+                            url 'http://opensource.org/licenses/MIT'
+                            distribution 'repo'
+                    }
+                }
+        }
+    }.writeTo("$buildDir/0.1.0.pom.xml")
 }
