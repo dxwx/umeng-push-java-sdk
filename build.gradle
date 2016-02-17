@@ -4,6 +4,8 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
 
 
 group = 'com.umeng.message'
@@ -14,7 +16,16 @@ description = """"""
 sourceCompatibility = 1.5
 targetCompatibility = 1.5
 
-
+publishing {
+    publications {
+        Publication(MavenPublication) {
+            artifact jar
+            groupId 'com.umeng.message'
+            artifactId 'push'
+            version '0.1.0'
+        }
+    }
+}
 bintray {
     user = System.getenv('BINTRAY_USER')
         key = System.getenv('BINTRAY_KEY')
@@ -22,10 +33,10 @@ bintray {
             from 'build/libs'
                 into '.'
         }
+        publications = ['Publication']
     pkg {
         repo = 'maven'
             name = 'umeng-push-sdk-java'
-            userOrg = user
             licenses = ['MIT']
             version {
                 name = '0.1.0'
